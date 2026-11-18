@@ -3,7 +3,7 @@ package com.x8bit.bitwarden.data.platform.provider
 import com.bitwarden.data.repository.util.baseApiUrl
 import com.bitwarden.data.repository.util.baseEventsUrl
 import com.bitwarden.data.repository.util.baseIdentityUrl
-import com.bitwarden.data.repository.util.toEnvironmentUrlsOrDefault
+import com.x8bit.bitwarden.data.platform.util.toEnvironmentOrDefault
 import com.bitwarden.network.interceptor.BaseUrlsProvider
 import com.x8bit.bitwarden.data.platform.datasource.disk.EnvironmentDiskSource
 
@@ -16,17 +16,17 @@ class BaseUrlsProviderImpl(
 
     override fun getBaseApiUrl(): String = environmentDiskSource
         .preAuthEnvironmentUrlData
-        .toEnvironmentUrlsOrDefault()
+        .toEnvironmentOrDefault()
         .baseApiUrl
 
     override fun getBaseIdentityUrl(): String = environmentDiskSource
         .preAuthEnvironmentUrlData
-        .toEnvironmentUrlsOrDefault()
+        .toEnvironmentOrDefault()
         .baseIdentityUrl
 
     override fun getBaseEventsUrl(): String = environmentDiskSource
         .preAuthEnvironmentUrlData
-        .toEnvironmentUrlsOrDefault()
+        .toEnvironmentOrDefault()
         .baseEventsUrl
 
     override fun getBaseFillAssistUrl(): String? = environmentDiskSource.fillAssistRulesUrl

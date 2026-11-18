@@ -343,10 +343,7 @@ data class LandingState(
      * The selectable environments.
      */
     val environmentTypeOptions: ImmutableList<Environment.Type>
-        get() = Environment.Type
-            .entries
-            .filterNot { it == Environment.Type.FED_RAMP && !isFedRampEnabled }
-            .toImmutableList()
+        get() = listOf(Environment.Type.SELF_HOSTED).toImmutableList()
 
     /**
      * Determines if the user should be allowed to create a new account.

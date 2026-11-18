@@ -3,7 +3,7 @@ package com.x8bit.bitwarden.data.platform.repository
 import com.bitwarden.core.data.manager.dispatcher.DispatcherManager
 import com.bitwarden.data.repository.model.Environment
 import com.bitwarden.data.repository.util.toEnvironmentUrls
-import com.bitwarden.data.repository.util.toEnvironmentUrlsOrDefault
+import com.x8bit.bitwarden.data.platform.util.toEnvironmentOrDefault
 import com.x8bit.bitwarden.data.auth.datasource.disk.AuthDiskSource
 import com.x8bit.bitwarden.data.platform.datasource.disk.EnvironmentDiskSource
 import kotlinx.coroutines.CoroutineScope
@@ -30,14 +30,14 @@ class EnvironmentRepositoryImpl(
     override var environment: Environment
         get() = environmentDiskSource
             .preAuthEnvironmentUrlData
-            .toEnvironmentUrlsOrDefault()
+            .toEnvironmentOrDefault()
         set(value) {
             environmentDiskSource.preAuthEnvironmentUrlData = value.environmentUrlData
         }
 
     override val environmentStateFlow: StateFlow<Environment> = environmentDiskSource
         .preAuthEnvironmentUrlDataFlow
-        .map { it.toEnvironmentUrlsOrDefault() }
+        .map { it.toEnvironmentOrDefault() }
         .onEach { Timber.d("Current environment: ${it.type}") }
         .stateIn(
             scope = scope,
