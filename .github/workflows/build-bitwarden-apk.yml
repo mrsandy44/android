@@ -2,8 +2,6 @@ name: Build signed Bitwarden APK
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main, master ]
 
 permissions:
   contents: read
@@ -25,16 +23,19 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: "platform-tools"
 
-      - name: Install SDK platform
+      - name: Install SDK packages
         run: |
           yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager --install "platforms;android-37" || sdkmanager --install "platforms;android-36"
+          sdkmanager --install "platforms;android-37.0" "build-tools;37.0.0" "platform-tools"
+          sdkmanager --list_installed | head -30
 
       - name: Configure GitHub Packages token
         run: |
           if [ -z "${GH_PACKAGES_TOKEN}" ]; then
-            echo "::error::Не задан секрет GH_PACKAGES_TOKEN (PAT с правом read:packages)"
+            echo "::error::Не задан секрет GH_PACKAGES_TOKEN (токен с правом read:packages)"
             exit 1
           fi
           printf 'gitHubToken=%s\n' "${GH_PACKAGES_TOKEN}" > user.properties
